@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {getMovies} from '../services/movieServiceStubs';
-import './App.sass';
 import Movie from './Movie';
 import NoMovie from './common/noMovie/NoMovie';
+import styled from 'styled-components';
 
 class App extends Component {
     
@@ -24,22 +24,31 @@ class App extends Component {
     }
 
     render() {
+        const App = styled.div`
+            margin-top: 40px;
+            text-align: center;
+        `;
+        const MovieList = styled.div`
+            padding: 20px;
+            background-color: #F8F8F8;
+        `;
+
         const {movies} = this.state;
         return (
-            <div className="app">
+            <App>
                 <div className="container">
                     { movies
                     ? <div className="row">
-                        <div>
+                        <MovieList>
                             {
                                 movies.map(m => <Movie key={m.id}
                                                 movie={m} /> )
                             }
-                        </div>
+                        </MovieList>
                     </div>
                     : <NoMovie /> } 
                 </div>
-            </div>
+            </App>
         );
     }
 }
