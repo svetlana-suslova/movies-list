@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const Bar = styled.div`
-    marginTop: 19;
-`;
 const DropDownToggle = styled(DropdownToggle)`
     &:focus {
         box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
@@ -25,11 +22,11 @@ const SortingBar = ({sortingMethod, sortBy}) => {
         {key: 'runtime', text: 'Movie runtime'},
     ];
     
-const [dropdownOpen, setDropdownOpen] = useState(false);
-const toggle = () => setDropdownOpen(prevState => !prevState);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggle = () => setDropdownOpen(prevState => !prevState);
 
     return (
-        <Bar className="col-sm-1" >
+        <div className="col-sm-2" >
             <Dropdown group isOpen={dropdownOpen} size="sm" toggle={toggle}>
                 <DropDownToggle caret>Sort By</DropDownToggle>
                 <DropdownMenu>
@@ -41,7 +38,7 @@ const toggle = () => setDropdownOpen(prevState => !prevState);
                     })}
                 </DropdownMenu>
             </Dropdown>
-        </Bar>  
+        </div>  
     );    
 }
 export default SortingBar;

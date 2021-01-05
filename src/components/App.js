@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getMovies} from '../services/movieServiceStubs';
+import {getMovies, getGenres} from '../services/movieServiceStubs';
 import Movie from './Movie';
 import NoMovie from './common/noMovie/NoMovie';
 import SortingBar from './common/bars/SortingBar';
@@ -21,15 +21,24 @@ class App extends Component {
     
     state = {
         movies: [],
-        sortingMethod: 'title'
+        genres: [],
+        sortingMethod: 'title',
+        filterMethod: ''
     }
 
     componentDidMount() {
-        this.loadData();
+        getGenres()
+            .then((genres) => {
+                this.setState({
+                    genres
+                }, () => {
+                    this.loadData();
+                });
+            });
     }
 
     loadData = () => {
-        getMovies(this.state.sortingMethod)
+        getMovies(this.state.sortingMethod, this.state.filterMethod)
         .then((data) => {
             this.setState({
                 movies: data.movieItems
@@ -45,8 +54,16 @@ class App extends Component {
         });
     }
 
+    filterBy = (key) => {
+        this.setState({
+            filterMethod: key
+        }, () => {
+            this.loadData();
+        });
+    }
+
     render() {
-        const {movies, sortingMethod} = this.state;
+        const {movies, sortingMethod, genres, filterMethod} = this.state;
         return (
             <AppWraper>
                 <div className="container">
@@ -55,7 +72,9 @@ class App extends Component {
                         <Header className="row">
                             <SortingBar sortingMethod={sortingMethod}
                             sortBy={this.sortBy}/>
-                            <FilterBar></FilterBar>
+                            <FilterBar genres={genres}
+                            filterMethod={filterMethod}
+                            filterBy={this.filterBy}/>
                             <SearchBar></SearchBar>
                         </Header>
                         <MovieList>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const SearchBar = () => {
     return (
-        <div>
+        <div className="col-sm-2" >
             SearchBar
         </div>
         
