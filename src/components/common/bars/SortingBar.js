@@ -28,7 +28,7 @@ const SortingBar = ({sortingMethod, sortBy}) => {
     return (
         <div className="col-sm-2" >
             <Dropdown group isOpen={dropdownOpen} size="sm" toggle={toggle}>
-                <DropDownToggle caret>Sort By</DropDownToggle>
+                <DropDownToggle caret>Sort by</DropDownToggle>
                 <DropdownMenu>
                     {sortByOptions.map(item => {
                         return (

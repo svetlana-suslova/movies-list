@@ -7,7 +7,7 @@ import FilterBar from './common/bars/FilterBar';
 import SearchBar from './common/bars/SearchBar';
 import styled from 'styled-components';
 
-const AppWraper = styled.div`
+const AppWrapper = styled.div`
     margin-top: 40px;
     text-align: center;
 `;
@@ -18,12 +18,15 @@ const MovieList = styled.div`
     background-color: #F8F8F8;
 `;
 class App extends Component {
-    
-    state = {
-        movies: [],
-        genres: [],
-        sortingMethod: 'title',
-        filterMethod: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            movies: [],
+            genres: [],
+            sortingMethod: 'title',
+            filterMethod: '',
+            searchStr: ''
+        }
     }
 
     componentDidMount() {
@@ -38,7 +41,7 @@ class App extends Component {
     }
 
     loadData = () => {
-        getMovies(this.state.sortingMethod, this.state.filterMethod)
+        getMovies(this.state.sortingMethod, this.state.filterMethod, this.state.searchStr)
         .then((data) => {
             this.setState({
                 movies: data.movieItems
@@ -62,10 +65,28 @@ class App extends Component {
         });
     }
 
+    search = (key) => {
+        if ( !(key.trim() === '') ) {
+            this.setState({
+                searchStr: key
+            }, () => {
+                this.loadData();
+            }); 
+        }  
+    }
+
+    clearSearch = () => {
+        this.setState({
+            searchStr: ''
+        }, () => {
+            this.loadData();
+        });
+    }
+
     render() {
         const {movies, sortingMethod, genres, filterMethod} = this.state;
         return (
-            <AppWraper>
+            <AppWrapper>
                 <div className="container">
                     { movies
                     ? <div className="row">
@@ -75,7 +96,8 @@ class App extends Component {
                             <FilterBar genres={genres}
                             filterMethod={filterMethod}
                             filterBy={this.filterBy}/>
-                            <SearchBar></SearchBar>
+                            <SearchBar search={this.search}
+                            clearSearch={this.clearSearch}/>
                         </Header>
                         <MovieList>
                             {
@@ -86,7 +108,7 @@ class App extends Component {
                     </div>
                     : <NoMovie /> } 
                 </div>
-            </AppWraper>
+            </AppWrapper>
         );
     }
 }

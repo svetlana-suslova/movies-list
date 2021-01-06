@@ -1,7 +1,8 @@
 import moviesData from './db.json';
 
-export function getMovies(sortBy, genre) {
-    const movies = filterGenres(moviesData.movies, genre);
+export function getMovies(sortBy, genre, searchStr) {
+    let movies = filterGenres(moviesData.movies, genre);
+    movies = searchInMovies(movies, searchStr);
     sortMovies(movies, sortBy);
     
     return Promise.resolve({
@@ -28,6 +29,18 @@ function filterGenres(movies, selectGenre) {
     return movies.filter(movie => {
         for (const genre of movie.genres) {
             if (containsString(genre, selectGenre)) return true;
+        }
+        return false;
+    });
+}
+
+function searchInMovies(movies, searchStr) {
+    if (!searchStr) return movies;
+    
+    const textSearchFields = ['title', 'year', 'actors', 'director', 'plot'];
+    return movies.filter(movie => {
+        for (const field of textSearchFields) {
+            if (containsString(movie[field], searchStr)) return true;
         }
         return false;
     });
