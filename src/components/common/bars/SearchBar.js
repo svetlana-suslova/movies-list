@@ -2,6 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputGroup, InputGroupAddon, Input} from 'reactstrap';
 
+const SearchButton = styled(Button)`
+    &:focus {
+        box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
+    }
+`;
+const SearchInput = styled(Input)`
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
+    }
+`; 
+
 const SearchBar = ({search, clearSearch}) => {
 
     const [currentStr, setSearchStr] = useState('');
@@ -17,13 +29,13 @@ const SearchBar = ({search, clearSearch}) => {
         <div className="col-sm-7" >
             <InputGroup size="sm">
                 <InputGroupAddon addonType="prepend">
-                    <Button color="success" onClick={() => onClearSearch()}>Clear</Button>
+                    <SearchButton color="success" onClick={() => onClearSearch()}>Clear</SearchButton>
                 </InputGroupAddon>
-                <Input type="text" placeholder="Search"
+                <SearchInput type="text" placeholder="Search"
                            value={currentStr}
                            onChange={onSearchChange} />
                 <InputGroupAddon addonType="append">
-                    <Button color="primary" onClick={() => search(currentStr)}>Search</Button>
+                    <SearchButton color="primary" onClick={() => search(currentStr)}>Search</SearchButton>
                 </InputGroupAddon>
             </InputGroup>
         </div> 

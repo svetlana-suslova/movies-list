@@ -58,11 +58,19 @@ class App extends Component {
     }
 
     filterBy = (key) => {
-        this.setState({
-            filterMethod: key
-        }, () => {
-            this.loadData();
-        });
+        if ( key !== 'ALL') {
+            this.setState({
+                filterMethod: key
+            }, () => {
+                this.loadData();
+            });
+        } else {
+            this.setState({
+                filterMethod: ''
+            }, () => {
+                this.loadData();
+            });
+        }
     }
 
     search = (key) => {
