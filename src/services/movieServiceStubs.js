@@ -1,12 +1,18 @@
 import moviesData from './db.json';
 
-export function getMovies(sortBy, genre, searchStr) {
+const pageSize = 10;
+
+export function getMovies(sortBy, genre, searchStr, page) {
+    
     let movies = filterGenres(moviesData.movies, genre);
     movies = searchInMovies(movies, searchStr);
     sortMovies(movies, sortBy);
+
+    const activePage = getActivePage(movies, page, pageSize);
     
     return Promise.resolve({
-        movieItems: movies 
+        total: movies.length,
+        movieItems: activePage
     });
 }
 
@@ -52,4 +58,10 @@ function containsString(obj, searchStr) {
 
 export function getGenres() {
     return Promise.resolve(moviesData.genres);
+}
+
+function getActivePage (movies, page, perPage) {
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+    return movies.slice(start, end);
 }

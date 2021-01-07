@@ -26,7 +26,7 @@ const SearchBar = ({search, clearSearch}) => {
     }
 
     return (
-        <div className="col-sm-7" >
+        <div className="col-sm-4" >
             <InputGroup size="sm">
                 <InputGroupAddon addonType="prepend">
                     <SearchButton color="success" onClick={() => onClearSearch()}>Clear</SearchButton>
