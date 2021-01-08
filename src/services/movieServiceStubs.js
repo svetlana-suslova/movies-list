@@ -1,17 +1,21 @@
 import moviesData from './db.json';
 
 const pageSize = 10;
+const portionSize = 5;
 
-export function getMovies(sortBy, genre, searchStr, page) {
+export function getMovies(sortBy, genre, searchStr, page, portionNumber) {
     
     let movies = filterGenres(moviesData.movies, genre);
     movies = searchInMovies(movies, searchStr);
     sortMovies(movies, sortBy);
 
     const activePage = getActivePage(movies, page, pageSize);
+    const portionCount = calculatePortionCount(movies);
+    const pages = getPages(movies, portionNumber);
     
     return Promise.resolve({
-        total: movies.length,
+        portionCount,
+        pages,
         movieItems: activePage
     });
 }
@@ -61,7 +65,31 @@ export function getGenres() {
 }
 
 function getActivePage (movies, page, perPage) {
-    var start = (page - 1) * perPage;
-    var end = page * perPage;
+    const start = (page - 1) * perPage;
+    const end = page * perPage;
     return movies.slice(start, end);
+}
+
+function calculatePortionCount (movies) {
+    const pagesCount = calculatePagesCount(movies);
+    const portionCount = Math.ceil(pagesCount / portionSize);
+    return portionCount;
+}
+
+function getPages (movies, portionNumber) {
+    const pagesCount = calculatePagesCount(movies);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
+    }
+    const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+    const rightPortionPageNumber = portionNumber * portionSize;
+    pages = pages.filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber);
+    console.log(pages);
+    
+    return pages;
+}
+
+function calculatePagesCount (movies) {
+    return Math.ceil(movies.length / pageSize);
 }

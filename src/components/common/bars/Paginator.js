@@ -1,37 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'; 
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const Paginator = ({selectPage, activePage, total}) => {
-   
-    const pagesCount = Math.ceil(total / 10);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
+const PaginationButton = styled(PaginationLink)`
+    &:focus {
+        box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
     }
+`;
 
+const Paginator = ({selectPage, activePage, pages, portionCount, portionNumber, setPortionNumber}) => {
+  
     return (
         <div className="col-sm-5">
             <Pagination size="sm">
-                <PaginationItem >
-                    <PaginationLink first />
-                </PaginationItem>
-                <PaginationItem >
-                    <PaginationLink previous />
-                </PaginationItem>
-                    {pages.map(p => {
+                {
+                    portionNumber > 1 && 
+                    <PaginationItem>
+                        <PaginationButton previous onClick={() => { setPortionNumber(portionNumber - 1) }}/>
+                    </PaginationItem>
+                }
+                { pages.length > 1 ?
+                    pages.map(p => {
                         return (
-                            <PaginationItem active={activePage === p} key={p} >
-                                <PaginationLink onClick={() => selectPage(p)}>{p}</PaginationLink>
-                            </PaginationItem>
-                        )})
-                    }
-                <PaginationItem>
-                    <PaginationLink next />
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink last />
-                </PaginationItem>
+                            <PaginationItem active={p === activePage} key={p} >
+                                <PaginationButton onClick={() => selectPage(p)}>{p}</PaginationButton>
+                            </PaginationItem> )})
+                    : null
+                }
+                {
+                    portionCount > portionNumber &&
+                    <PaginationItem>
+                        <PaginationButton next onClick={() => { setPortionNumber(portionNumber + 1) }}/>
+                    </PaginationItem>
+                }
              </Pagination>
         </div>
     );   

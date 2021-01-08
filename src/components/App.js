@@ -24,11 +24,13 @@ class App extends Component {
         this.state = {
             movies: [],
             genres: [],
+            pages: [],
             sortingMethod: 'title',
             filterMethod: '',
             searchStr: '',
-            total: 0,
-            activePage: 1
+            activePage: 1,
+            portionCount: null,
+            portionNumber: 1
         }
     }
 
@@ -44,11 +46,12 @@ class App extends Component {
     }
 
     loadData = () => {
-        getMovies(this.state.sortingMethod, this.state.filterMethod, this.state.searchStr, this.state.activePage)
+        getMovies(this.state.sortingMethod, this.state.filterMethod, this.state.searchStr, this.state.activePage, this.state.portionNumber)
         .then((data) => {
             this.setState({
                 movies: data.movieItems,
-                total: data.total
+                pages: data.pages,
+                portionCount: data.portionCount
             })
         });
     }
@@ -56,7 +59,8 @@ class App extends Component {
     sortBy = (key) => {
         this.setState({
             sortingMethod: key,
-            activePage: 1
+            activePage: 1,
+            portionNumber: 1
         }, () => {
             this.loadData();
         });
@@ -66,14 +70,16 @@ class App extends Component {
         if ( key !== 'ALL') {
             this.setState({
                 filterMethod: key,
-                activePage: 1
+                activePage: 1,
+                portionNumber: 1
             }, () => {
                 this.loadData();
             });
         } else {
             this.setState({
                 filterMethod: '',
-                activePage: 1
+                activePage: 1,
+                portionNumber: 1
             }, () => {
                 this.loadData();
             });
@@ -84,7 +90,8 @@ class App extends Component {
         if ( !(key.trim() === '') ) {
             this.setState({
                 searchStr: key,
-                activePage: 1
+                activePage: 1,
+                portionNumber: 1
             }, () => {
                 this.loadData();
             }); 
@@ -94,7 +101,8 @@ class App extends Component {
     clearSearch = () => {
         this.setState({
             searchStr: '',
-            activePage: 1
+            activePage: 1,
+            portionNumber: 1
         }, () => {
             this.loadData();
         });
@@ -108,8 +116,17 @@ class App extends Component {
         });
     }
 
+    setPortionNumber = (key) => {
+        this.setState({
+            portionNumber: key
+        }, () => {
+            this.loadData();
+        });
+    }
+
     render() {
-        const {movies, sortingMethod, genres, filterMethod, activePage, total} = this.state;
+        const {movies, sortingMethod, genres, filterMethod, activePage, 
+            portionCount, pages, portionNumber} = this.state;
         return (
             <AppWrapper>
                 <div className="container">
@@ -124,8 +141,11 @@ class App extends Component {
                             <SearchBar search={this.search}
                             clearSearch={this.clearSearch}/>
                             <Paginator activePage={activePage}
+                            portionCount={portionCount}
                             selectPage={this.selectPage}
-                            total={total}/>
+                            pages={pages} 
+                            portionNumber={portionNumber} 
+                            setPortionNumber={this.setPortionNumber} />
                         </Header>
                         <MovieList>
                             {
