@@ -8,32 +8,27 @@ const DropDownToggle = styled(DropdownToggle)`
     }
 `;
 const DropDownItem = styled(DropdownItem)`
-    &:hover, &:focus {
+    &:focus {
         background-color: rgba(237,241,245,0.8);
         color: #404040;
         outline: none;
     }
 `; 
 
-const SortingBar = ({sortingMethod, sortBy}) => {
-    const sortByOptions = [
-        {key: 'title', text: 'Title'},
-        {key: 'year', text: 'Year'},
-        {key: 'runtime', text: 'Movie runtime'},
-    ];
-    
+const DropDown = ({sortMethod, sort, sortOptions, title, color}) => {
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
     return (
         <div>
             <Dropdown group isOpen={dropdownOpen} size="sm" toggle={toggle}>
-                <DropDownToggle caret>Sort by</DropDownToggle>
+                <DropDownToggle caret color={color}>{title}</DropDownToggle>
                 <DropdownMenu>
-                    {sortByOptions.map(item => {
+                    {sortOptions.map(item => {
                         return (
-                            <DropDownItem key={item.key} onClick={() => sortBy(item.key)}
-                                        active={sortingMethod === item.key}>{item.text}</DropDownItem>
+                            <DropDownItem key={item.key} onClick={() => sort(item.key)}
+                                        active={sortMethod === item.key}>{item.text}</DropDownItem>
                         )
                     })}
                 </DropdownMenu>
@@ -41,4 +36,4 @@ const SortingBar = ({sortingMethod, sortBy}) => {
         </div>  
     );    
 }
-export default SortingBar;
+export default DropDown;

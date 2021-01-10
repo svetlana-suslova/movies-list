@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {getMovies, getGenres} from '../services/movieServiceStubs';
 import Movie from './Movie';
-import NoMovie from './common/noMovie/NoMovie';
-import SortingBar from './common/bars/SortingBar';
-import FilterBar from './common/bars/FilterBar';
-import SearchBar from './common/bars/SearchBar';
-import Paginator from './common/bars/Paginator';
+import NoMovie from './common/NoMovie';
+import SortingBar from './bars/SortingBar';
+import FilterBar from './bars/FilterBar';
+import SearchBar from './bars/SearchBar';
+import Paginator from './bars/Paginator';
 import styled from 'styled-components';
 import NewMovie from './NewMovie';
 

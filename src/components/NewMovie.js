@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import styled from 'styled-components';
-
-const PlusButton = styled(Button)`
-    &:focus {
-        box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
-    }
-`;
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { MyButton, CloseBtn } from './common/Buttons';
 
 const NewMovie = ({addMovie, cancelEditMovie}) => {
 
@@ -22,11 +16,13 @@ const cancelModal = () => {
     cancelEditMovie();
 }
 
-const closeBtn = <button className="close" onClick={cancelModal}>&times;</button>;
+const closeBtn = <CloseBtn onClickMethod={cancelModal}/>;
 
 return (
     <div>
-        <PlusButton color="success"  onClick={openModal}>+</PlusButton>
+        <MyButton color="success" 
+        onClickMethod={openModal} 
+        title="+"/>
         <Modal isOpen={modal} >
             <ModalHeader close={closeBtn}>
                 Edit movie
@@ -41,8 +37,11 @@ return (
                 <textarea name="" cols="30" rows="10"></textarea>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary" >Save</Button>
-                <Button color="secondary" onClick={cancelModal}>Cancel</Button>
+                <MyButton size="sm" color="primary" 
+                title="Save"/>
+                <MyButton size="sm" color="secondary" 
+                onClickMethod={cancelModal} 
+                title="Cancel"/>
             </ModalFooter>
         </Modal>
     </div>
