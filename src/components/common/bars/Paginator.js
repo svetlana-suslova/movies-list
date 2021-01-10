@@ -11,7 +11,7 @@ const PaginationButton = styled(PaginationLink)`
 const Paginator = ({selectPage, activePage, pages, portionCount, portionNumber, setPortionNumber}) => {
   
     return (
-        <div className="col-sm-5">
+        <div>
             <Pagination size="sm">
                 {
                     portionNumber > 1 && 

@@ -26,7 +26,7 @@ const SortingBar = ({sortingMethod, sortBy}) => {
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
     return (
-        <div className="col-sm-1" >
+        <div>
             <Dropdown group isOpen={dropdownOpen} size="sm" toggle={toggle}>
                 <DropDownToggle caret>Sort by</DropDownToggle>
                 <DropdownMenu>

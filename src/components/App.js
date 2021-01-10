@@ -7,13 +7,17 @@ import FilterBar from './common/bars/FilterBar';
 import SearchBar from './common/bars/SearchBar';
 import Paginator from './common/bars/Paginator';
 import styled from 'styled-components';
+import NewMovie from './NewMovie';
 
 const AppWrapper = styled.div`
     margin-top: 40px;
     text-align: center;
 `;
+
 const Header = styled.div`
+    padding: 10px 20px;
 `;
+
 const MovieList = styled.div`
     padding: 20px;
     background-color: #F8F8F8;
@@ -30,7 +34,8 @@ class App extends Component {
             searchStr: '',
             activePage: 1,
             portionCount: null,
-            portionNumber: 1
+            portionNumber: 1,
+            movieToEdit: null
         }
     }
 
@@ -124,6 +129,26 @@ class App extends Component {
         });
     }
 
+    addMovie = () => {
+        this.setState({
+            movieToEdit: {
+                title: '',
+                year: 2021,
+                runtime: 120,
+                genres: [],
+                director: '',
+                actors: '',
+                plot: ''
+            }
+        });
+    }
+
+    cancelEditMovie = () => {
+        this.setState({
+            movieToEdit: null
+        });
+    }
+
     render() {
         const {movies, sortingMethod, genres, filterMethod, activePage, 
             portionCount, pages, portionNumber} = this.state;
@@ -131,21 +156,28 @@ class App extends Component {
             <AppWrapper>
                 <div className="container">
                     { movies
-                    ? <div className="row">
-                        <Header className="row">
-                            <SortingBar sortingMethod={sortingMethod}
+                    ? <div className="row flex-column">
+                        <Header className="row justify-content-between">
+                            <SortingBar className="col-1" 
+                            sortingMethod={sortingMethod}
                             sortBy={this.sortBy}/>
-                            <FilterBar genres={genres}
+                            <FilterBar className="col-2"
+                            genres={genres}
                             filterMethod={filterMethod}
                             filterBy={this.filterBy}/>
-                            <SearchBar search={this.search}
+                            <SearchBar className="col-4"
+                            search={this.search}
                             clearSearch={this.clearSearch}/>
-                            <Paginator activePage={activePage}
+                            <Paginator className="col-4"
+                            activePage={activePage}
                             portionCount={portionCount}
                             selectPage={this.selectPage}
                             pages={pages} 
                             portionNumber={portionNumber} 
-                            setPortionNumber={this.setPortionNumber} />
+                            setPortionNumber={this.setPortionNumber}/>
+                            <NewMovie className="col-1" 
+                            cancelEditMovie={this.cancelEditMovie} 
+                            addMovie={this.addMovie}/>
                         </Header>
                         <MovieList>
                             {

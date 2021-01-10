@@ -25,7 +25,7 @@ const FilterBar = ({genres, filterBy, filterMethod}) => {
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
     return (
-        <div className="col-sm-2" >
+        <div>
             <Dropdown group isOpen={dropdownOpen} size="sm" toggle={toggle}>
                 <DropDownToggle color="primary" caret>Filter by Genre</DropDownToggle>
                 <DropdownMenu>
