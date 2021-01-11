@@ -196,7 +196,8 @@ class App extends Component {
                             createNewMovie={this.createNewMovie}  
                             cancelEditMovie={this.cancelEditMovie}
                             onChangeMovie={this.updateMovieToEditOnChange}
-                            saveMovie={this.onSaveMovie}/>
+                            saveMovie={this.onSaveMovie}
+                            genres={genres}/>
                         </Header>
                         <MovieList>
                             {

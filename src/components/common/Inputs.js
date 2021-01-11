@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import styled from 'styled-components';
+import Select from 'react-select';
 
 const LabelBold = styled(Label)`
     font-weight: 700;
@@ -58,5 +59,24 @@ export const NumberInput = ({onChangeMovie, min, ...props}) => {
         onChange={inputOnChange}
         min={min}
         {...props}/>
+    );
+}
+
+export const SelectInput = ({name, label, placeholder, onChangeMovie, options}) => {
+
+    const inputOnChange = (val) => {
+        const value = val.map(x => x.value);
+        onChangeMovie(name, value);
+    };
+    return (
+        <FormGroup>
+            <LabelBold htmlFor={name}>{label}</LabelBold>
+            <Select isMulti 
+            name={name} 
+            placeholder={placeholder}
+            onChange={inputOnChange}
+            options={options}/>
+            <FormFeedback>Field is required.</FormFeedback>
+        </FormGroup>
     );
 }

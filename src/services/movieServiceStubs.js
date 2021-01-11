@@ -85,7 +85,6 @@ function getPages (movies, portionNumber) {
     const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     const rightPortionPageNumber = portionNumber * portionSize;
     pages = pages.filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber);
-    console.log(pages);
     
     return pages;
 }
