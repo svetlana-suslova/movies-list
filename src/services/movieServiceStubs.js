@@ -93,3 +93,16 @@ function getPages (movies, portionNumber) {
 function calculatePagesCount (movies) {
     return Math.ceil(movies.length / pageSize);
 }
+
+export function saveMovie(movie) {
+    const movies = moviesData.movies;
+    let maxId = 0;
+    for (let i = 0; i < movies.length; i++) {
+        if (movies[i].id > maxId) {
+            maxId = movies[i].id;
+        }
+    }
+    movie.id = maxId + 1;
+    movies.push(movie);
+    return Promise.resolve(null);
+}

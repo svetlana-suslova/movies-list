@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getMovies, getGenres} from '../services/movieServiceStubs';
+import {getMovies, getGenres, saveMovie} from '../services/movieServiceStubs';
 import Movie from './Movie';
 import NoMovie from './common/NoMovie';
 import SortingBar from './bars/SortingBar';
@@ -7,7 +7,7 @@ import FilterBar from './bars/FilterBar';
 import SearchBar from './bars/SearchBar';
 import Paginator from './bars/Paginator';
 import styled from 'styled-components';
-import NewMovie from './NewMovie';
+import MovieModal from './MovieModal';
 
 const AppWrapper = styled.div`
     margin-top: 40px;
@@ -129,7 +129,7 @@ class App extends Component {
         });
     }
 
-    addMovie = () => {
+    createNewMovie = () => {
         this.setState({
             movieToEdit: {
                 title: '',
@@ -149,9 +149,25 @@ class App extends Component {
         });
     }
 
+    updateMovieToEditOnChange = (field, value) => {
+        let movie = this.state.movieToEdit;
+        movie[field] = value;
+        return this.setState({movieToEdit: movie});
+    }
+
+    onSaveMovie = () => {
+        const movie = this.state.movieToEdit;
+        this.setState({movieToEdit: null}, () => {
+            saveMovie(movie)
+                .then(() => {
+                    this.loadData();
+                })
+        });
+    }
+
     render() {
         const {movies, sortingMethod, genres, filterMethod, activePage, 
-            portionCount, pages, portionNumber} = this.state;
+            portionCount, pages, portionNumber, movieToEdit} = this.state;
         return (
             <AppWrapper>
                 <div className="container">
@@ -175,9 +191,12 @@ class App extends Component {
                             pages={pages} 
                             portionNumber={portionNumber} 
                             setPortionNumber={this.setPortionNumber}/>
-                            <NewMovie className="col-1" 
-                            cancelEditMovie={this.cancelEditMovie} 
-                            addMovie={this.addMovie}/>
+                            <MovieModal className="col-1"
+                            movie={movieToEdit}
+                            createNewMovie={this.createNewMovie}  
+                            cancelEditMovie={this.cancelEditMovie}
+                            onChangeMovie={this.updateMovieToEditOnChange}
+                            saveMovie={this.onSaveMovie}/>
                         </Header>
                         <MovieList>
                             {
