@@ -94,6 +94,11 @@ function calculatePagesCount (movies) {
 }
 
 export function saveMovie(movie) {
+    if (movie.id) return updateMovie(movie);
+    return addMovie(movie);
+}
+
+function addMovie(movie) {
     const movies = moviesData.movies;
     let maxId = 0;
     for (let i = 0; i < movies.length; i++) {
@@ -103,5 +108,16 @@ export function saveMovie(movie) {
     }
     movie.id = maxId + 1;
     movies.push(movie);
+
+    return Promise.resolve(null);
+}
+
+function updateMovie(movie) {
+    const movies = moviesData.movies;
+    for (let i = 0; i < movies.length; i++) {
+        if (movies[i].id === movie.id) {
+            movies[i] = movie;
+        }
+    }
     return Promise.resolve(null);
 }

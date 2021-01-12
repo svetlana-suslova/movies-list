@@ -8,6 +8,7 @@ import SearchBar from './bars/SearchBar';
 import Paginator from './bars/Paginator';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
+import { PlusButton } from './common/Buttons';
 
 const AppWrapper = styled.div`
     margin-top: 40px;
@@ -35,7 +36,8 @@ class App extends Component {
             activePage: 1,
             portionCount: null,
             portionNumber: 1,
-            movieToEdit: null
+            movieToEdit: null,
+            modal: false
         }
     }
 
@@ -139,13 +141,15 @@ class App extends Component {
                 director: '',
                 actors: '',
                 plot: ''
-            }
+            },
+            modal: !this.state.modal
         });
     }
 
     cancelEditMovie = () => {
         this.setState({
-            movieToEdit: null
+            movieToEdit: null,
+            modal: !this.state.modal
         });
     }
 
@@ -157,7 +161,10 @@ class App extends Component {
 
     onSaveMovie = () => {
         const movie = this.state.movieToEdit;
-        this.setState({movieToEdit: null}, () => {
+        this.setState({
+            movieToEdit: null,
+            modal: !this.state.modal
+        }, () => {
             saveMovie(movie)
                 .then(() => {
                     this.loadData();
@@ -165,9 +172,17 @@ class App extends Component {
         });
     }
 
+    updateMovie = (movie) => {
+        this.setState({
+            movieToEdit: Object.assign({}, movie),
+            modal: !this.state.modal
+        });
+    }
+
+
     render() {
         const {movies, sortingMethod, genres, filterMethod, activePage, 
-            portionCount, pages, portionNumber, movieToEdit} = this.state;
+            portionCount, pages, portionNumber, movieToEdit, modal} = this.state;
         return (
             <AppWrapper>
                 <div className="container">
@@ -191,20 +206,25 @@ class App extends Component {
                             pages={pages} 
                             portionNumber={portionNumber} 
                             setPortionNumber={this.setPortionNumber}/>
-                            <MovieModal className="col-1"
-                            movie={movieToEdit}
-                            createNewMovie={this.createNewMovie}  
-                            cancelEditMovie={this.cancelEditMovie}
-                            onChangeMovie={this.updateMovieToEditOnChange}
-                            saveMovie={this.onSaveMovie}
-                            genres={genres}/>
+                            <PlusButton className="col-1"
+                            color="success" 
+                            onClickMethod={this.createNewMovie}
+                            title="+"/>
                         </Header>
                         <MovieList>
                             {
                                 movies.map(m => <Movie key={m.id}
-                                                movie={m} /> )
+                                movie={m} 
+                                updateMovie={this.updateMovie}/> )
                             }
                         </MovieList>
+                        <MovieModal
+                        modal={modal}
+                        movie={movieToEdit} 
+                        cancelEditMovie={this.cancelEditMovie}
+                        onChangeMovie={this.updateMovieToEditOnChange}
+                        saveMovie={this.onSaveMovie}
+                        genres={genres}/>
                     </div>
                     : <NoMovie /> } 
                 </div>

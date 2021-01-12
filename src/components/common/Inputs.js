@@ -22,7 +22,7 @@ const MyInput = ({name, label, placeholder, rows, min, type, ...props}) => {
 }
 
 
-export const TextInput = ({onChangeMovie, ...props}) => {
+export const TextInput = ({onChangeMovie, value, ...props}) => {
 
     const inputOnChange = (event) => {
         onChangeMovie(event.target.name, event.target.value);
@@ -31,10 +31,11 @@ export const TextInput = ({onChangeMovie, ...props}) => {
         <MyInput
         type="text"
         onChange={inputOnChange}
+        value={value ? value : ''}
         {...props}/>
     );
 }
-export const TextAreaInput = ({onChangeMovie, rows, ...props}) => {
+export const TextAreaInput = ({onChangeMovie, rows, value, ...props}) => {
 
     const inputOnChange = (event) => {
         onChangeMovie(event.target.name, event.target.value);
@@ -44,10 +45,11 @@ export const TextAreaInput = ({onChangeMovie, rows, ...props}) => {
         type="textarea"
         rows={rows}
         onChange={inputOnChange}
+        value={value ? value : ''}
         {...props}/>
     );
 }
-export const NumberInput = ({onChangeMovie, min, ...props}) => {
+export const NumberInput = ({onChangeMovie, min, value, ...props}) => {
 
     const inputOnChange = (event) => {
         const value = parseInt(event.target.value, 10);
@@ -58,11 +60,12 @@ export const NumberInput = ({onChangeMovie, min, ...props}) => {
         type="number"
         onChange={inputOnChange}
         min={min}
+        value={value}
         {...props}/>
     );
 }
 
-export const SelectInput = ({name, label, placeholder, onChangeMovie, options}) => {
+export const SelectInput = ({name, label, placeholder, onChangeMovie, options, value}) => {
 
     const inputOnChange = (val) => {
         const value = val.map(x => x.value);
@@ -75,7 +78,8 @@ export const SelectInput = ({name, label, placeholder, onChangeMovie, options}) 
             name={name} 
             placeholder={placeholder}
             onChange={inputOnChange}
-            options={options}/>
+            options={options}
+            value={value}/>
             <FormFeedback>Field is required.</FormFeedback>
         </FormGroup>
     );

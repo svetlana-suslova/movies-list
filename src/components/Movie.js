@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { EditButton, DeleteButton } from './common/Buttons';
 
 const MovieRow = styled.div`
     font-size: 15px;
@@ -61,7 +62,7 @@ const MoviePlot = styled.p`
     font-size: 14px;
 `;
 
-const Movie = ( {movie} ) => {
+const Movie = ( {movie, updateMovie} ) => {
     const imgUrl = movie.posterUrl;
     return (   
         <MovieRow key={movie.id}>
@@ -69,7 +70,13 @@ const Movie = ( {movie} ) => {
                 <img src={imgUrl} title={movie.title}/>
             </MovieImage>
             <MovieInfo>
-                <MovieTitle><a>{movie.title}</a></MovieTitle>
+                <MovieTitle className="row">
+                    <div className="col-10"><a>{movie.title}</a></div>
+                    <div className="col-2">
+                        <EditButton onClickMethod={() => updateMovie(movie)}/>
+                        <DeleteButton/>
+                    </div>
+                </MovieTitle>
                 <MovieDetails>
                     {movie.year}
                     <span>{movie.runtime + ' min.'}</span>
