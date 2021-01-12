@@ -27,9 +27,10 @@ const SearchBar = ({search, clearSearch}) => {
                 <InputGroupAddon addonType="prepend">
                     <MyButton color="success" onClickMethod={() => onClearSearch()} title="Clear"/>
                 </InputGroupAddon>
-                <SearchInput type="text" placeholder="Search"
-                           value={currentStr}
-                           onChange={onSearchChange} />
+                <SearchInput type="text" 
+                placeholder="Search"
+                value={currentStr}
+                onChange={onSearchChange}/>
                 <InputGroupAddon addonType="append">
                     <MyButton color="primary" onClickMethod={() => search(currentStr)} title="Search"/>
                 </InputGroupAddon>
