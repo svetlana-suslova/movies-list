@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import MovieModal from './MovieModal';
 import { PlusButton } from './common/Buttons';
 import Confirm from './common/Confirm';
+import toastr from 'toastr';
 
 const AppWrapper = styled.div`
     margin-top: 40px;
@@ -170,6 +171,7 @@ class App extends Component {
         }, () => {
             saveMovie(movie)
                 .then(() => {
+                    toastr.success('Movie was saved!');
                     this.loadData();
                 })
         });
@@ -199,6 +201,7 @@ class App extends Component {
     onDeleteMovie = () => {
         deleteMovie(this.state.movieToDelete.id)
             .then(() => {
+                toastr.error('Movie was deleted!');
                 this.setState({
                     movieToDelete: null,
                     confirm: !this.state.confirm
