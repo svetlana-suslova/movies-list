@@ -121,3 +121,13 @@ function updateMovie(movie) {
     }
     return Promise.resolve(null);
 }
+
+export function deleteMovie(id) {
+    const movies = moviesData.movies;
+    for (let i = 0; i < movies.length; i++) {
+        if (movies[i].id === id) {
+            movies.splice(i, 1);
+        }
+    }
+    return Promise.resolve(null);
+}

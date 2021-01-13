@@ -62,7 +62,7 @@ const MoviePlot = styled.p`
     font-size: 14px;
 `;
 
-const Movie = ( {movie, updateMovie} ) => {
+const Movie = ( {movie, updateMovie, setMovieToDelete} ) => {
     const imgUrl = movie.posterUrl;
     return (   
         <MovieRow key={movie.id}>
@@ -71,10 +71,12 @@ const Movie = ( {movie, updateMovie} ) => {
             </MovieImage>
             <MovieInfo>
                 <MovieTitle className="row">
-                    <div className="col-10"><a>{movie.title}</a></div>
+                    <div className="col-10">
+                        <a onClick={() => updateMovie(movie)}>{movie.title}</a>
+                    </div>
                     <div className="col-2">
                         <EditButton onClickMethod={() => updateMovie(movie)}/>
-                        <DeleteButton/>
+                        <DeleteButton onClickMethod={() => setMovieToDelete(movie)}/>
                     </div>
                 </MovieTitle>
                 <MovieDetails>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getMovies, getGenres, saveMovie} from '../services/movieServiceStubs';
+import {getMovies, getGenres, saveMovie, deleteMovie} from '../services/movieServiceStubs';
 import Movie from './Movie';
 import NoMovie from './common/NoMovie';
 import SortingBar from './bars/SortingBar';
@@ -9,6 +9,7 @@ import Paginator from './bars/Paginator';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
 import { PlusButton } from './common/Buttons';
+import Confirm from './common/Confirm';
 
 const AppWrapper = styled.div`
     margin-top: 40px;
@@ -37,7 +38,9 @@ class App extends Component {
             portionCount: null,
             portionNumber: 1,
             movieToEdit: null,
-            modal: false
+            movieToDelete: null,
+            modal: false,
+            confirm: false
         }
     }
 
@@ -179,10 +182,34 @@ class App extends Component {
         });
     }
 
+    setMovieToDelete = (key) => {
+        this.setState({
+            movieToDelete: key,
+            confirm: !this.state.confirm
+        });
+    }
+
+    cancelDeleteMovie = () => {
+        this.setState({
+            movieToDelete: null,
+            confirm: !this.state.confirm
+        });
+    }
+
+    onDeleteMovie = () => {
+        deleteMovie(this.state.movieToDelete.id)
+            .then(() => {
+                this.setState({
+                    movieToDelete: null,
+                    confirm: !this.state.confirm
+                });
+                this.loadData();
+            });
+    }
 
     render() {
-        const {movies, sortingMethod, genres, filterMethod, activePage, 
-            portionCount, pages, portionNumber, movieToEdit, modal} = this.state;
+        const {movies, sortingMethod, genres, filterMethod, activePage, portionCount, pages, portionNumber, 
+               movieToEdit, movieToDelete, modal, confirm} = this.state;
         return (
             <AppWrapper>
                 <div className="container">
@@ -215,7 +242,8 @@ class App extends Component {
                             {
                                 movies.map(m => <Movie key={m.id}
                                 movie={m} 
-                                updateMovie={this.updateMovie}/> )
+                                updateMovie={this.updateMovie}
+                                setMovieToDelete={this.setMovieToDelete}/> )
                             }
                         </MovieList>
                         <MovieModal
@@ -225,6 +253,11 @@ class App extends Component {
                         onChangeMovie={this.updateMovieToEditOnChange}
                         saveMovie={this.onSaveMovie}
                         genres={genres}/>
+                        <Confirm
+                        confirm={confirm}
+                        cancelDeleteMovie={this.cancelDeleteMovie}
+                        deleteMovie={this.onDeleteMovie}
+                        movie={movieToDelete}/>
                     </div>
                     : <NoMovie /> } 
                 </div>

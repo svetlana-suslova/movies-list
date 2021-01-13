@@ -68,6 +68,7 @@ export const NumberInput = ({onChangeMovie, min, value, ...props}) => {
 export const SelectInput = ({name, label, placeholder, onChangeMovie, options, value}) => {
 
     const inputOnChange = (val) => {
+        if (!val) return;
         const value = val.map(x => x.value);
         onChangeMovie(name, value);
     };
