@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { MyButton, CloseBtn } from './common/Buttons';
 import {TextInput, TextAreaInput, NumberInput, SelectInput} from './common/Inputs';
 import { useForm } from "react-hook-form";
@@ -11,6 +11,25 @@ const ErrorMessage = styled.p`
         display: inline;
         content: "⚠ ";
     }
+`;
+
+const SaveBtn = styled.button`
+    color: #fff;
+    background-color: #007bff;
+    height: 31px;
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-image: none;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    margin: 5px 0;
+    &:hover {
+        background-color: #0069d9;;
+    }  
+    &:focus {
+        outline: none;
+    } 
 `;
 
 const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, modal }) => {
@@ -102,9 +121,11 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             placeholder="Plot"
                             defaultValue={movie.plot}
                             register={register} />
-                            <button type="submit">Save</button>
+                            <ModalFooter>
+                            <SaveBtn type="submit">Save</SaveBtn>
                             <MyButton size="sm" color="secondary" 
                             title="Cancel"onClickMethod={cancelEditMovie}/>
+                            </ModalFooter>
                         </form>
                     </ModalBody>
                 </Modal>
