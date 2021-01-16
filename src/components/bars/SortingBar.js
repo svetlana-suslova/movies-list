@@ -1,5 +1,10 @@
 import React from 'react';
 import DropDown from '../common/DropDown';
+import styled from 'styled-components';
+
+const Bar = styled.div`
+    margin: 10px 20px;
+`;
 
 const SortingBar = ({sortingMethod, sortBy}) => {
     const sortByOptions = [
@@ -9,13 +14,13 @@ const SortingBar = ({sortingMethod, sortBy}) => {
     ];
 
     return (
-        <div>
+        <Bar>
             <DropDown sortMethod={sortingMethod} 
             sortOptions={sortByOptions} 
             sort={sortBy} 
             title="Sort by"
             color="secondary"/>
-        </div>  
+        </Bar>  
     );    
 }
 export default SortingBar;

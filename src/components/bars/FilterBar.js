@@ -1,5 +1,10 @@
 import React from 'react';
 import DropDown from '../common/DropDown';
+import styled from 'styled-components';
+
+const Bar = styled.div`
+    margin: 10px 0px;
+`;
 
 const FilterBar = ({genres, filterBy, filterMethod}) => {
         const genresOptions = genres.map(g => ({
@@ -8,13 +13,13 @@ const FilterBar = ({genres, filterBy, filterMethod}) => {
     }));
 
     return (
-        <div>
+        <Bar>
             <DropDown sortMethod={filterMethod} 
             sortOptions={genresOptions} 
             sort={filterBy} 
             title="Filter by Genre"
             color="primary"/>
-        </div>  
+        </Bar>  
     );   
 }
 export default FilterBar;

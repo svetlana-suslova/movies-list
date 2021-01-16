@@ -12,6 +12,7 @@ const StyledPlusButton = styled(Button)`
     font-weight: bold;
     line-height: 18px;
     font-size: 20px;
+    margin: 10px;
     &:focus {
         box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
     }

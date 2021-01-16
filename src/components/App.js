@@ -13,12 +13,12 @@ import Confirm from './common/Confirm';
 import toastr from 'toastr';
 
 const AppWrapper = styled.div`
-    margin-top: 40px;
+    margin-top: 20px;
     text-align: center;
 `;
 
 const Header = styled.div`
-    padding: 10px 20px;
+    padding: 10px 10px;
 `;
 
 const MovieList = styled.div`
@@ -214,32 +214,35 @@ class App extends Component {
         const {movies, sortingMethod, genres, filterMethod, activePage, portionCount, pages, portionNumber, 
                movieToEdit, movieToDelete, modal, confirm} = this.state;
         return (
-            <AppWrapper>
-                <div className="container">
+                <AppWrapper className="container">
                     { movies
                     ? <div className="row flex-column">
-                        <Header className="row justify-content-between">
-                            <SortingBar className="col-1" 
-                            sortingMethod={sortingMethod}
-                            sortBy={this.sortBy}/>
-                            <FilterBar className="col-2"
-                            genres={genres}
-                            filterMethod={filterMethod}
-                            filterBy={this.filterBy}/>
-                            <SearchBar className="col-4"
-                            search={this.search}
-                            clearSearch={this.clearSearch}/>
-                            <Paginator className="col-4"
-                            activePage={activePage}
-                            portionCount={portionCount}
-                            selectPage={this.selectPage}
-                            pages={pages} 
-                            portionNumber={portionNumber} 
-                            setPortionNumber={this.setPortionNumber}/>
-                            <PlusButton className="col-1"
-                            color="success" 
-                            onClickMethod={this.createNewMovie}
-                            title="+"/>
+                        <Header>
+                            <div className="row justify-content-between">
+                                <SortingBar className="col-2" 
+                                sortingMethod={sortingMethod}
+                                sortBy={this.sortBy}/>
+                                <Paginator className="col-10" 
+                                activePage={activePage}
+                                portionCount={portionCount}
+                                selectPage={this.selectPage}
+                                pages={pages} 
+                                portionNumber={portionNumber} 
+                                setPortionNumber={this.setPortionNumber}/>
+                            </div>
+                            <div className="row justify-content-between">
+                                <SearchBar className="col-6"
+                                search={this.search}
+                                clearSearch={this.clearSearch}/>
+                                <FilterBar className="col-4"
+                                genres={genres}
+                                filterMethod={filterMethod}
+                                filterBy={this.filterBy}/>
+                                <PlusButton className="col-2"
+                                color="success" 
+                                onClickMethod={this.createNewMovie}
+                                title="+"/>
+                            </div> 
                         </Header>
                         <MovieList>
                             {
@@ -262,8 +265,7 @@ class App extends Component {
                         deleteMovie={this.onDeleteMovie}
                         movie={movieToDelete}/>
                     </div>
-                    : <NoMovie /> } 
-                </div>
+                : <NoMovie /> } 
             </AppWrapper>
         );
     }

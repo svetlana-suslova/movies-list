@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { InputGroup, InputGroupAddon, Input} from 'reactstrap';
 import { MyButton } from '../common/Buttons';
 
+const Bar = styled.div`
+    margin: 10px 0 0 20px;
+    width: 220px!important;
+`;
+
 
 const SearchInput = styled(Input)`
     &:focus {    
@@ -22,7 +27,7 @@ const SearchBar = ({search, clearSearch}) => {
     }
 
     return (
-        <div>
+        <Bar>
             <InputGroup size="sm">
                 <InputGroupAddon addonType="prepend">
                     <MyButton color="success" onClickMethod={() => onClearSearch()} title="Clear"/>
@@ -35,7 +40,7 @@ const SearchBar = ({search, clearSearch}) => {
                     <MyButton color="primary" onClickMethod={() => search(currentStr)} title="Search"/>
                 </InputGroupAddon>
             </InputGroup>
-        </div> 
+        </Bar> 
     );   
 }
 export default SearchBar;
