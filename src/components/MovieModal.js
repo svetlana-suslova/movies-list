@@ -34,14 +34,7 @@ const SaveBtn = styled.button`
 
 const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, modal }) => {
 
-    const genresOptions = genres.filter(g => g !== "ALL").map(g => ({value: g, label: g}));
-
-    const selectedGenres = genresOptions.filter(go => {
-        if (!movie) return false;
-        return movie.genres.indexOf(go.value) >= 0;
-    });
-
-    const { register, handleSubmit, errors, control } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const onSubmit = () => saveMovie();
 
     const closeBtn = <CloseBtn onClickMethod={cancelEditMovie}/>
@@ -69,9 +62,9 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             <SelectInput
                             name="genres"
                             label="Genres"
-                            options={genresOptions}
-                            onChangeMovie={onChangeMovie}
-                            defaultValue={selectedGenres} />
+                            genres={genres}
+                            movie={movie}
+                            onChangeMovie={onChangeMovie} />
                             <NumberInput
                             name="year"
                             label="Year"
@@ -104,9 +97,9 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             <TextAreaInput
                             name="actors"
                             rows="2"
-                            label="Actors comma separated"
+                            label="Actors"
                             onChangeMovie={onChangeMovie}
-                            placeholder="Actors"
+                            placeholder="Actor, Actor, ..."
                             defaultValue={movie.actors}
                             register={register}
                             required />

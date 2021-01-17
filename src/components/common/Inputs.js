@@ -97,12 +97,17 @@ export const NumberInput = ({name, placeholder, label, onChangeMovie, min, defau
     );
 }
 
-export const SelectInput = ({name, label, onChangeMovie, options, defaultValue}) => {
+export const SelectInput = ({name, label, onChangeMovie, movie, genres}) => {
+
+    const genresOptions = genres.filter(g => g !== "ALL").map(g => ({value: g, label: g}));
+    const selectedGenres = genresOptions.filter(go => {
+        if (!movie) return false;
+        return movie.genres.indexOf(go.value) >= 0;
+    });
 
     const inputOnChange = (val) => {
         const value = !val ? [""] : val.map(item => item.value);
         onChangeMovie(name, value);
-        console.log(value);  
     };
 
     return (
@@ -112,8 +117,8 @@ export const SelectInput = ({name, label, onChangeMovie, options, defaultValue})
             isMulti
             name={name}
             onChange={inputOnChange}
-            options={options}
-            defaultValue={defaultValue}/>
+            options={genresOptions}
+            defaultValue={selectedGenres}/>
         </FormGroup>
     );
 }
