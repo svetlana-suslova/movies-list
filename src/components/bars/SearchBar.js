@@ -35,7 +35,12 @@ const SearchBar = ({search, clearSearch}) => {
                 <SearchInput type="text" 
                 placeholder="Search"
                 value={currentStr}
-                onChange={onSearchChange}/>
+                onChange={onSearchChange}
+                onKeyPress={(target) => {
+                    if (target.charCode === 13) {
+                        search(currentStr);
+                    }
+                }}/>
                 <InputGroupAddon addonType="append">
                     <MyButton color="primary" onClickMethod={() => search(currentStr)} title="Search"/>
                 </InputGroupAddon>
