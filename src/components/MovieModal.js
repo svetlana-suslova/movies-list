@@ -89,6 +89,13 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             required />
                             {errors.runtime && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             <TextInput
+                            name="posterUrl"
+                            label="Image"
+                            placeholder="Image URL"
+                            onChangeMovie={onChangeMovie}
+                            defaultValue={movie.posterUrl} 
+                            register={register} />
+                            <TextInput
                             name="director"
                             label="Director"
                             placeholder="Director"

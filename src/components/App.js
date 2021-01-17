@@ -144,7 +144,8 @@ class App extends Component {
                 genres: [],
                 director: '',
                 actors: '',
-                plot: ''
+                plot: '',
+                posterUrl: 'https://images5.fanpop.com/image/photos/24600000/The-Mask-the-mask-24621712-336-475.jpg'
             },
             modal: !this.state.modal
         });
