@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { EditButton, DeleteButton } from './common/Buttons';
+import noMovie from '../assets/no-movie.png';
 
 const MovieRow = styled.div`
     font-size: 15px;
@@ -63,7 +64,7 @@ const MoviePlot = styled.p`
 `;
 
 const Movie = ( {movie, updateMovie, setMovieToDelete} ) => {
-    const imgUrl = movie.posterUrl;
+    const imgUrl = movie.posterUrl ? movie.posterUrl : noMovie;
     return (   
         <MovieRow key={movie.id}>
             <MovieImage>
