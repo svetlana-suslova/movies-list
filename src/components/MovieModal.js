@@ -71,9 +71,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             label="Genres"
                             options={genresOptions}
                             onChangeMovie={onChangeMovie}
-                            defaultValue={selectedGenres}
-                            control={control} />
-                            {errors.genres && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                            defaultValue={selectedGenres} />
                             <NumberInput
                             name="year"
                             label="Year"

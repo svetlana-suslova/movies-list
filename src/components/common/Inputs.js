@@ -97,20 +97,20 @@ export const NumberInput = ({name, placeholder, label, onChangeMovie, min, defau
     );
 }
 
-export const SelectInput = ({name, label, placeholder, onChangeMovie, options, defaultValue, register, required}) => {
+export const SelectInput = ({name, label, onChangeMovie, options, defaultValue}) => {
 
     const inputOnChange = (val) => {
-        if (!val) return;
-        const value = val.map(x => x.value);
+        const value = !val ? [""] : val.map(item => item.value);
         onChangeMovie(name, value);
+        console.log(value);  
     };
 
     return (
         <FormGroup>
             <LabelBold>{label}</LabelBold>
-            <Select isMulti
-            name={name} 
-            placeholder={placeholder}
+            <Select 
+            isMulti
+            name={name}
             onChange={inputOnChange}
             options={options}
             defaultValue={defaultValue}/>
