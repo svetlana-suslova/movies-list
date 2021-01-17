@@ -76,7 +76,7 @@ export const TextAreaInput = ({name, placeholder, label, onChangeMovie, defaultV
     );
 }
 
-export const NumberInput = ({name, placeholder, label, onChangeMovie, min, defaultValue, register, required}) => {
+export const NumberInput = ({name, placeholder, label, onChangeMovie, min, max, defaultValue, register, required}) => {
 
     const inputOnChange = (event) => {
         const value = parseInt(event.target.value, 10);
@@ -90,6 +90,7 @@ export const NumberInput = ({name, placeholder, label, onChangeMovie, min, defau
             name={name}
             placeholder={placeholder}
             min={min}
+            max={max}
             onChange={inputOnChange}
             defaultValue={defaultValue}
             ref={register({ required })}/>
@@ -97,7 +98,7 @@ export const NumberInput = ({name, placeholder, label, onChangeMovie, min, defau
     );
 }
 
-export const SelectInput = ({name, label, onChangeMovie, movie, genres}) => {
+export const SelectInput = ({name, label, onChangeMovie, movie, genres, placeholder}) => {
 
     const genresOptions = genres.filter(g => g !== "ALL").map(g => ({value: g, label: g}));
     const selectedGenres = genresOptions.filter(go => {
@@ -116,6 +117,7 @@ export const SelectInput = ({name, label, onChangeMovie, movie, genres}) => {
             <Select 
             isMulti
             name={name}
+            placeholder={placeholder}
             onChange={inputOnChange}
             options={genresOptions}
             defaultValue={selectedGenres}/>

@@ -62,6 +62,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             <SelectInput
                             name="genres"
                             label="Genres"
+                            placeholder="Genres"
                             genres={genres}
                             movie={movie}
                             onChangeMovie={onChangeMovie} />
@@ -71,6 +72,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             placeholder="2020"
                             onChangeMovie={onChangeMovie}
                             min="1950"
+                            max="2050"
                             defaultValue={movie.year}
                             register={register}
                             required />
@@ -81,6 +83,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             placeholder="120"
                             onChangeMovie={onChangeMovie}
                             min="1"
+                            max="180"
                             defaultValue={movie.runtime}
                             register={register}
                             required />
