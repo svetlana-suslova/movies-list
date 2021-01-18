@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 const Bar = styled.div`
-    margin: 10px 10px;
+    margin-bottom: 10px;
 `;
 
 const PaginationButton = styled(PaginationLink)`

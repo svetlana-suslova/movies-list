@@ -4,7 +4,7 @@ import { InputGroup, InputGroupAddon, Input} from 'reactstrap';
 import { MyButton } from '../common/Buttons';
 
 const Bar = styled.div`
-    margin: 10px 0 0 20px;
+    margin-bottom: 10px;
     width: 220px!important;
 `;
 

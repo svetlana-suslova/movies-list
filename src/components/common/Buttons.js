@@ -12,7 +12,6 @@ const StyledPlusButton = styled(Button)`
     font-weight: bold;
     line-height: 18px;
     font-size: 20px;
-    margin: 10px;
     &:focus {
         box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
     }
@@ -36,6 +35,9 @@ const AwesomeButton = styled.button`
     }
     .fa {
         font-size: 18px;
+    }
+    .fa-trash {
+        padding: 0 2px;
     }
 `;
 

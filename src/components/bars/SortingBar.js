@@ -3,7 +3,7 @@ import DropDown from '../common/DropDown';
 import styled from 'styled-components';
 
 const Bar = styled.div`
-    margin: 10px 20px;
+    margin-bottom: 20px;
 `;
 
 const SortingBar = ({sortingMethod, sortBy}) => {

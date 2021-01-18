@@ -13,16 +13,13 @@ import Confirm from './common/Confirm';
 import toastr from 'toastr';
 
 const AppWrapper = styled.div`
-    margin-top: 20px;
-    text-align: center;
-`;
-
-const Header = styled.div`
-    padding: 10px 10px;
+   padding: 5px;
+   margin-top: 20px;
 `;
 
 const MovieList = styled.div`
-    padding: 20px;
+    padding-top: 10px;
+    margin-top: 20px;
     background-color: #F8F8F8;
 `;
 class App extends Component {
@@ -215,10 +212,10 @@ class App extends Component {
         const {movies, sortingMethod, genres, filterMethod, activePage, portionCount, pages, portionNumber, 
                movieToEdit, movieToDelete, modal, confirm} = this.state;
         return (
-                <AppWrapper className="container">
+                <AppWrapper>
                     { movies
-                    ? <div className="row flex-column">
-                        <Header>
+                    ? <>
+                        <div className="container">
                             <div className="row justify-content-between">
                                 <SortingBar className="col-2" 
                                 sortingMethod={sortingMethod}
@@ -244,8 +241,8 @@ class App extends Component {
                                 onClickMethod={this.createNewMovie}
                                 title="+"/>
                             </div> 
-                        </Header>
-                        <MovieList>
+                        </div>
+                        <MovieList className="container">
                             {
                                 movies.map(m => <Movie key={m.id}
                                 movie={m} 
@@ -265,8 +262,8 @@ class App extends Component {
                         cancelDeleteMovie={this.cancelDeleteMovie}
                         deleteMovie={this.onDeleteMovie}
                         movie={movieToDelete}/>
-                    </div>
-                : <NoMovie /> } 
+                    </>
+                : <NoMovie /> }
             </AppWrapper>
         );
     }
