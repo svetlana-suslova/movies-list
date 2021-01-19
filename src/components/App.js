@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {getMovies, getGenres, saveMovie, deleteMovie} from '../services/movieServiceStubs';
 import Movie from './Movie';
 import NoMovie from './common/NoMovie';
@@ -22,118 +22,114 @@ const MovieList = styled.div`
     margin-top: 20px;
     background-color: #F8F8F8;
 `;
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            movies: [],
-            genres: [],
-            pages: [],
-            sortingMethod: 'title',
-            filterMethod: '',
-            searchStr: '',
-            activePage: 1,
-            portionCount: null,
-            portionNumber: 1,
-            movieToEdit: null,
-            movieToDelete: null,
-            modal: false,
-            confirm: false
-        }
-    }
+const App = () =>  {
 
-    componentDidMount() {
+    const [state, setState] = useState({
+        movies: [],
+        genres: [],
+        pages: [],
+        sortingMethod: 'title',
+        filterMethod: '',
+        searchStr: '',
+        activePage: 1,
+        portionCount: null,
+        portionNumber: 1,
+        movieToEdit: null,
+        movieToDelete: null,
+        modal: false,
+        confirm: false
+      });
+
+    const { movies, genres, pages, sortingMethod, filterMethod, searchStr, activePage, portionCount, 
+        portionNumber, movieToEdit, movieToDelete, modal, confirm } = state;
+
+    useEffect(() => {
         getGenres()
-            .then((genres) => {
-                this.setState({
-                    genres
-                }, () => {
-                    this.loadData();
-                });
+        .then(genres => {
+            setState(state => ({
+                ...state,
+                genres
+                }));
             });
-    }
+            loadData();
+    }, [sortingMethod, filterMethod, searchStr, activePage, portionNumber]);
 
-    loadData = () => {
-        getMovies(this.state.sortingMethod, this.state.filterMethod, this.state.searchStr, this.state.activePage, this.state.portionNumber)
+    const loadData = () => {
+        getMovies(sortingMethod, filterMethod, searchStr, activePage, portionNumber)
         .then((data) => {
-            this.setState({
+            setState(state => ({
+                ...state,
                 movies: data.movieItems,
                 pages: data.pages,
                 portionCount: data.portionCount
-            })
+              }));
         });
     }
 
-    sortBy = (key) => {
-        this.setState({
+    const sortBy = (key) => {
+        setState(state => ({
+            ...state,
             sortingMethod: key,
             activePage: 1,
             portionNumber: 1
-        }, () => {
-            this.loadData();
-        });
+        }));
     }
 
-    filterBy = (key) => {
-        if ( key !== 'ALL') {
-            this.setState({
+    const filterBy = (key) => {
+        if (key !== 'ALL') {
+            setState((state) => ({
+                ...state,
                 filterMethod: key,
                 activePage: 1,
                 portionNumber: 1
-            }, () => {
-                this.loadData();
-            });
+            }));
         } else {
-            this.setState({
+            setState(state => ({
+                ...state,
                 filterMethod: '',
                 activePage: 1,
                 portionNumber: 1
-            }, () => {
-                this.loadData();
-            });
+            }));
         }
     }
 
-    search = (key) => {
+    const search = (key) => {
         if ( !(key.trim() === '') ) {
-            this.setState({
+            setState(state => ({
+                ...state,
                 searchStr: key,
                 activePage: 1,
                 portionNumber: 1
-            }, () => {
-                this.loadData();
-            }); 
+            })); 
         }  
     }
 
-    clearSearch = () => {
-        this.setState({
+    const clearSearch = () => {
+        setState(state => ({
+            ...state,
             searchStr: '',
             activePage: 1,
             portionNumber: 1
-        }, () => {
-            this.loadData();
-        });
+        }));
     }
 
-    selectPage = (key) =>  {
-        this.setState({
+    const selectPage = (key) =>  {
+        setState(state => ({
+            ...state,
             activePage: key
-        }, () => {
-            this.loadData();
-        });
+        }));
     }
 
-    setPortionNumber = (key) => {
-        this.setState({
+    const setPortionNumber = (key) => {
+        setState(state => ({
+            ...state,
             portionNumber: key
-        }, () => {
-            this.loadData();
-        });
+        }));
     }
 
-    createNewMovie = () => {
-        this.setState({
+    const createNewMovie = () => {
+        setState(state => ({
+            ...state,
             movieToEdit: {
                 title: '',
                 year: 2021,
@@ -144,129 +140,133 @@ class App extends Component {
                 plot: '',
                 posterUrl: 'https://images5.fanpop.com/image/photos/24600000/The-Mask-the-mask-24621712-336-475.jpg'
             },
-            modal: !this.state.modal
-        });
+            modal: !modal
+        }));
     }
 
-    cancelEditMovie = () => {
-        this.setState({
+    const cancelEditMovie = () => {
+        setState(state => ({
+            ...state,
             movieToEdit: null,
-            modal: !this.state.modal
-        });
+            modal: !modal
+        }));
     }
 
-    updateMovieToEditOnChange = (field, value) => {
-        let movie = this.state.movieToEdit;
+    const updateMovieToEditOnChange = (field, value) => {
+        let movie = movieToEdit;
         movie[field] = value;
-        return this.setState({movieToEdit: movie});
+        return setState(state => ({
+            ...state,
+            movieToEdit: movie
+        }));
     }
 
-    onSaveMovie = () => {
-        const movie = this.state.movieToEdit;
-        this.setState({
+    const onSaveMovie = () => {
+        const movie = movieToEdit;
+        setState(state => ({
+            ...state,
             movieToEdit: null,
-            modal: !this.state.modal
-        }, () => {
-            saveMovie(movie)
-                .then(() => {
-                    toastr.success('Movie was saved!');
-                    this.loadData();
-                })
+            modal: !modal
+        }));
+        saveMovie(movie)
+            .then(() => {
+                toastr.success('Movie was saved!');
+                loadData();
         });
     }
 
-    updateMovie = (movie) => {
-        this.setState({
+    const updateMovie = (movie) => {
+        setState(state => ({
+            ...state,
             movieToEdit: Object.assign({}, movie),
-            modal: !this.state.modal
-        });
+            modal: !modal
+        }));
     }
 
-    setMovieToDelete = (key) => {
-        this.setState({
+    const setMovieToDelete = (key) => {
+        setState(state => ({
+            ...state,
             movieToDelete: key,
-            confirm: !this.state.confirm
-        });
+            confirm: !confirm
+        }));
     }
 
-    cancelDeleteMovie = () => {
-        this.setState({
+    const cancelDeleteMovie = () => {
+        setState(state => ({
+            ...state,
             movieToDelete: null,
-            confirm: !this.state.confirm
-        });
+            confirm: !confirm
+        }));
     }
 
-    onDeleteMovie = () => {
-        deleteMovie(this.state.movieToDelete.id)
+    const onDeleteMovie = () => {
+        deleteMovie(movieToDelete.id)
             .then(() => {
                 toastr.error('Movie was deleted!');
-                this.setState({
+                setState(state => ({
+                    ...state,
                     movieToDelete: null,
-                    confirm: !this.state.confirm
-                });
-                this.loadData();
+                    confirm: !confirm
+                }));
+                loadData();
             });
     }
-
-    render() {
-        const {movies, sortingMethod, genres, filterMethod, activePage, portionCount, pages, portionNumber, 
-               movieToEdit, movieToDelete, modal, confirm} = this.state;
-        return (
-                <AppWrapper>
-                    { movies
-                    ? <>
-                        <div className="container">
-                            <div className="row justify-content-between">
-                                <SortingBar className="col-2" 
-                                sortingMethod={sortingMethod}
-                                sortBy={this.sortBy}/>
-                                <Paginator className="col-10" 
-                                activePage={activePage}
-                                portionCount={portionCount}
-                                selectPage={this.selectPage}
-                                pages={pages} 
-                                portionNumber={portionNumber} 
-                                setPortionNumber={this.setPortionNumber}/>
-                            </div>
-                            <div className="row justify-content-between">
-                                <SearchBar className="col-6"
-                                search={this.search}
-                                clearSearch={this.clearSearch}/>
-                                <FilterBar className="col-4"
-                                genres={genres}
-                                filterMethod={filterMethod}
-                                filterBy={this.filterBy}/>
-                                <PlusButton className="col-2"
-                                color="success" 
-                                onClickMethod={this.createNewMovie}
-                                title="+"/>
-                            </div> 
+        
+    return (
+            <AppWrapper>
+                { movies
+                ? <>
+                    <div className="container">
+                        <div className="row justify-content-between">
+                            <SortingBar className="col-2" 
+                            sortingMethod={sortingMethod}
+                            sortBy={sortBy}/>
+                            <Paginator className="col-10" 
+                            activePage={activePage}
+                            portionCount={portionCount}
+                            selectPage={selectPage}
+                            pages={pages} 
+                            portionNumber={portionNumber} 
+                            setPortionNumber={setPortionNumber}/>
                         </div>
-                        <MovieList className="container">
-                            {
-                                movies.map(m => <Movie key={m.id}
-                                movie={m} 
-                                updateMovie={this.updateMovie}
-                                setMovieToDelete={this.setMovieToDelete}/> )
-                            }
-                        </MovieList>
-                        <MovieModal
-                        modal={modal}
-                        movie={movieToEdit} 
-                        cancelEditMovie={this.cancelEditMovie}
-                        onChangeMovie={this.updateMovieToEditOnChange}
-                        saveMovie={this.onSaveMovie}
-                        genres={genres}/>
-                        <Confirm
-                        confirm={confirm}
-                        cancelDeleteMovie={this.cancelDeleteMovie}
-                        deleteMovie={this.onDeleteMovie}
-                        movie={movieToDelete}/>
-                    </>
-                : <NoMovie /> }
-            </AppWrapper>
-        );
-    }
+                        <div className="row justify-content-between">
+                            <SearchBar className="col-6"
+                            search={search}
+                            clearSearch={clearSearch}/>
+                            <FilterBar className="col-4"
+                            genres={genres}
+                            filterMethod={filterMethod}
+                            filterBy={filterBy}/>
+                            <PlusButton className="col-2"
+                            color="success" 
+                            onClickMethod={createNewMovie}
+                            title="+"/>
+                        </div> 
+                    </div>
+                    <MovieList className="container">
+                        {
+                            movies.map(m => <Movie key={m.id}
+                            movie={m} 
+                            updateMovie={updateMovie}
+                            setMovieToDelete={setMovieToDelete}/> )
+                        }
+                    </MovieList>
+                    <MovieModal
+                    modal={modal}
+                    movie={movieToEdit} 
+                    cancelEditMovie={cancelEditMovie}
+                    onChangeMovie={updateMovieToEditOnChange}
+                    saveMovie={onSaveMovie}
+                    genres={genres}/>
+                    <Confirm
+                    confirm={confirm}
+                    cancelDeleteMovie={cancelDeleteMovie}
+                    deleteMovie={onDeleteMovie}
+                    movie={movieToDelete}/>
+                </>
+            : <NoMovie /> }
+        </AppWrapper>
+    );
 }
 
 export default App;
