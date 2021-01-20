@@ -3,7 +3,19 @@ import moviesData from './db.json';
 const pageSize = 10;
 const portionSize = 5;
 
-export function getMovies(sortBy, genre, searchStr, page, portionNumber) {
+type Movie = {
+    id: number,
+    title: string,
+    year: string,
+    runtime: string,
+    genres: Array<string>,
+    director: string,
+    actors: string,
+    plot: string,
+    posterUrl: string
+}
+
+export function getMovies(sortBy: string, genre: string, searchStr: string, page: number, portionNumber: number) {
     
     let movies = filterGenres(moviesData.movies, genre);
     movies = searchInMovies(movies, searchStr);
@@ -20,21 +32,23 @@ export function getMovies(sortBy, genre, searchStr, page, portionNumber) {
     });
 }
 
-function sortMovies(movies, sortBy) {
+
+
+function sortMovies(movies: Array<Movie>, sortBy: string) {
     if (sortBy === 'title') {
         movies.sort((x, y) => x.title.localeCompare(y.title));
     }
 
     if (sortBy === 'year') {
-        movies.sort((x, y) => x.year - y.year);
+        movies.sort((x, y) => Number(x.year) - Number(y.year));
     }
 
     if (sortBy === 'runtime') {
-        movies.sort((x, y) => x.runtime - y.runtime);
+        movies.sort((x, y) => Number(x.runtime) - Number(y.runtime));
     }
 }
 
-function filterGenres(movies, selectGenre) {
+function filterGenres(movies: Array<Movie>, selectGenre: string) {
     if (!selectGenre) return movies;
     return movies.filter(movie => {
         for (const genre of movie.genres) {
@@ -44,19 +58,20 @@ function filterGenres(movies, selectGenre) {
     });
 }
 
-function searchInMovies(movies, searchStr) {
+function searchInMovies(movies: Array<Movie>, searchStr: string) {
     if (!searchStr) return movies;
     
     const textSearchFields = ['title', 'year', 'actors', 'director', 'plot'];
     return movies.filter(movie => {
         for (const field of textSearchFields) {
+            // @ts-ignore
             if (containsString(movie[field], searchStr)) return true;
         }
         return false;
     });
 }
 
-function containsString(obj, searchStr) {
+function containsString(obj: Object, searchStr: string) {
     return obj.toString().toLowerCase().indexOf(searchStr.toLowerCase()) !== -1
 }
 
@@ -64,19 +79,19 @@ export function getGenres() {
     return Promise.resolve(moviesData.genres);
 }
 
-function getActivePage (movies, page, perPage) {
+function getActivePage (movies: Array<Movie>, page: number, perPage: number) {
     const start = (page - 1) * perPage;
     const end = page * perPage;
     return movies.slice(start, end);
 }
 
-function calculatePortionCount (movies) {
+function calculatePortionCount (movies: Array<Movie>) {
     const pagesCount = calculatePagesCount(movies);
     const portionCount = Math.ceil(pagesCount / portionSize);
     return portionCount;
 }
 
-function getPages (movies, portionNumber) {
+function getPages (movies: Array<Movie>, portionNumber: number) {
     const pagesCount = calculatePagesCount(movies);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
@@ -89,16 +104,16 @@ function getPages (movies, portionNumber) {
     return pages;
 }
 
-function calculatePagesCount (movies) {
+function calculatePagesCount (movies: Array<Movie>) {
     return Math.ceil(movies.length / pageSize);
 }
 
-export function saveMovie(movie) {
+export function saveMovie(movie: Movie) {
     if (movie.id) return updateMovie(movie);
     return addMovie(movie);
 }
 
-function addMovie(movie) {
+function addMovie(movie: Movie) {
     const movies = moviesData.movies;
     let maxId = 0;
     for (let i = 0; i < movies.length; i++) {
@@ -112,7 +127,7 @@ function addMovie(movie) {
     return Promise.resolve(null);
 }
 
-function updateMovie(movie) {
+function updateMovie(movie: Movie) {
     const movies = moviesData.movies;
     for (let i = 0; i < movies.length; i++) {
         if (movies[i].id === movie.id) {
@@ -122,7 +137,7 @@ function updateMovie(movie) {
     return Promise.resolve(null);
 }
 
-export function deleteMovie(id) {
+export function deleteMovie(id: number) {
     const movies = moviesData.movies;
     for (let i = 0; i < movies.length; i++) {
         if (movies[i].id === id) {
