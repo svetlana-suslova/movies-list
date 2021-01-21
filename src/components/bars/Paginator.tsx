@@ -42,7 +42,8 @@ const Paginator: React.FC<PropsType> = ({selectPage, activePage, pages, portionC
                     : null
                 }
                 {
-                   portionCount && portionCount > portionNumber &&
+                    // @ts-ignore
+                   portionCount > portionNumber &&
                     <PaginationItem>
                         <PaginationButton next onClick={() => { setPortionNumber(portionNumber + 1) }}/>
                     </PaginationItem>

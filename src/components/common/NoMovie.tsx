@@ -15,14 +15,12 @@ const Styled = styled.div`
 
 const NoMovie = () => {
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <Styled className="flex-column">
-                    <img src={noMovie} alt="No movie"/>
-                    <div>No movies</div>
-                </Styled>
-            </div>
-        </div> 
+        <div className="row justify-content-center">
+            <Styled className="flex-column">
+                <img src={noMovie} alt="No movie"/>
+                <div>No movies</div>
+            </Styled>
+        </div>
     );   
 }
 export default NoMovie;

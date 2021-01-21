@@ -70,7 +70,6 @@ const App = () =>  {
                 }));
             });
             loadData();
-            console.log("pages"+ pages)
     }, [sortingMethod, filterMethod, searchStr, activePage, portionNumber]);
 
     const loadData = () => {
