@@ -5,8 +5,13 @@ import styled from 'styled-components';
 const Bar = styled.div`
     margin-bottom: 20px;
 `;
+type PropsType = {
+    className: string,
+    sortingMethod: string,
+    sortBy: (sortingMethod: string) => void
+}
 
-const SortingBar = ({sortingMethod, sortBy}) => {
+const SortingBar: React.FC<PropsType> = ({sortingMethod, sortBy}) => {
     const sortByOptions = [
         {key: 'title', text: 'Title'},
         {key: 'year', text: 'Year'},

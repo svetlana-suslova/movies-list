@@ -1,8 +1,14 @@
 import React from 'react';
 import DropDown from '../common/DropDown';
 
+type PropsType = {
+    className: string,
+    genres: Array<string>,
+    filterMethod: string,
+    filterBy: (key: string) => void
+}
 
-const FilterBar = ({genres, filterBy, filterMethod}) => {
+const FilterBar: React.FC<PropsType> = ({genres, filterBy, filterMethod}) => {
         const genresOptions = genres.map(g => ({
         key: g,
         text: g

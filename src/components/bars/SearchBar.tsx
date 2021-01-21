@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { InputGroup, InputGroupAddon, Input} from 'reactstrap';
 import { MyButton } from '../common/Buttons';
@@ -15,10 +15,16 @@ const SearchInput = styled(Input)`
     }
 `; 
 
-const SearchBar = ({search, clearSearch}) => {
+type PropsType = {
+    className: string,
+    search: (currentStr: string) => void,
+    clearSearch: () => void
+}
+
+const SearchBar: React.FC<PropsType> = ({search, clearSearch}) => {
 
     const [currentStr, setSearchStr] = useState('');
-    const onSearchChange = (e) => {
+    const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchStr(e.currentTarget.value);
     }
     const onClearSearch = () => {
@@ -36,7 +42,7 @@ const SearchBar = ({search, clearSearch}) => {
                 placeholder="Search"
                 value={currentStr}
                 onChange={onSearchChange}
-                onKeyPress={(target) => {
+                onKeyPress={(target: any) => {
                     if (target.charCode === 13) {
                         search(currentStr);
                     }

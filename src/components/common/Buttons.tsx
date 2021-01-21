@@ -41,19 +41,27 @@ const AwesomeButton = styled.button`
     }
 `;
 
-export const MyButton = ({title, onClickMethod, color, size}) => {
+type PropsType = {
+    className?: string,
+    title: string,
+    onClickMethod: () => void,
+    color: string,
+    size?: string
+}
+
+export const MyButton: React.FC<PropsType> = ({title, onClickMethod, color, size}) => {
     return (
         <StyledButton size={size} color={color} onClick={() => onClickMethod()}>{title}</StyledButton>
     );   
 }
 
-export const CloseBtn = ({onClickMethod}) => {
+export const CloseBtn: React.FC<PropsType> = ({onClickMethod}) => {
     return (
      <StyledCloseButton className="close" onClick={onClickMethod}>&times;</StyledCloseButton>
      );   
 }
 
-export const PlusButton = ({title, onClickMethod, color, size}) => {
+export const PlusButton: React.FC<PropsType> = ({title, onClickMethod, color, size}) => {
     return (
         <div>
             <StyledPlusButton size={size} color={color} onClick={() => onClickMethod()}>{title}</StyledPlusButton> 
@@ -61,14 +69,16 @@ export const PlusButton = ({title, onClickMethod, color, size}) => {
     );   
 }
 
-export const EditButton = ({onClickMethod}) => {
+export const EditButton: React.FC<PropsType> = ({onClickMethod}) => {
     return (
+        // @ts-ignore
         <AwesomeButton onClick={() => onClickMethod()}><i class="fa fa-edit"></i></AwesomeButton>
     );   
 }
 
-export const DeleteButton = ({onClickMethod}) => {
+export const DeleteButton: React.FC<PropsType> = ({onClickMethod}) => {
     return (
+        // @ts-ignore
         <AwesomeButton onClick={() => onClickMethod()}><i class="fa fa-trash"></i></AwesomeButton>
     );   
 }

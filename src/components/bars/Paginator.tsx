@@ -12,7 +12,17 @@ const PaginationButton = styled(PaginationLink)`
     }
 `;
 
-const Paginator = ({selectPage, activePage, pages, portionCount, portionNumber, setPortionNumber}) => {
+type PropsType = {
+    className: string,
+    activePage: number, 
+    pages: Array<number>, 
+    portionCount: number | null, 
+    portionNumber: number, 
+    selectPage: (p: number) => void,
+    setPortionNumber: (portionNumber: number) => void
+}
+
+const Paginator: React.FC<PropsType> = ({selectPage, activePage, pages, portionCount, portionNumber, setPortionNumber}) => {
   
     return (
         <Bar>
@@ -32,7 +42,7 @@ const Paginator = ({selectPage, activePage, pages, portionCount, portionNumber, 
                     : null
                 }
                 {
-                    portionCount > portionNumber &&
+                   portionCount && portionCount > portionNumber &&
                     <PaginationItem>
                         <PaginationButton next onClick={() => { setPortionNumber(portionNumber + 1) }}/>
                     </PaginationItem>

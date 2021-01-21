@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {getMovies, getGenres, saveMovie, deleteMovie} from '../services/movieServiceStubs';
+import {MovieType} from '../types/types';
 import Movie from './Movie';
 import NoMovie from './common/NoMovie';
 import SortingBar from './bars/SortingBar';
@@ -22,9 +23,26 @@ const MovieList = styled.div`
     margin-top: 20px;
     background-color: #F8F8F8;
 `;
-const App = () =>  {
 
-    const [state, setState] = useState({
+const App = () =>  { 
+
+    type State = {
+        movies: Array<MovieType>,
+        genres: Array<string>,
+        pages: Array<number>,
+        sortingMethod: string,
+        filterMethod: string,
+        searchStr: string,
+        activePage: number,
+        portionCount: number | null,
+        portionNumber: number,
+        movieToEdit: MovieType | null,
+        movieToDelete: MovieType | null,
+        modal: boolean,
+        confirm: boolean
+    }
+
+    const [state, setState] = useState<State>({
         movies: [],
         genres: [],
         pages: [],
@@ -52,11 +70,12 @@ const App = () =>  {
                 }));
             });
             loadData();
+            console.log("pages"+ pages)
     }, [sortingMethod, filterMethod, searchStr, activePage, portionNumber]);
 
     const loadData = () => {
         getMovies(sortingMethod, filterMethod, searchStr, activePage, portionNumber)
-        .then((data) => {
+        .then((data: any) => {
             setState(state => ({
                 ...state,
                 movies: data.movieItems,
@@ -66,7 +85,7 @@ const App = () =>  {
         });
     }
 
-    const sortBy = (key) => {
+    const sortBy = (key: string) => {
         setState(state => ({
             ...state,
             sortingMethod: key,
@@ -75,7 +94,7 @@ const App = () =>  {
         }));
     }
 
-    const filterBy = (key) => {
+    const filterBy = (key: string) => {
         if (key !== 'ALL') {
             setState((state) => ({
                 ...state,
@@ -93,7 +112,7 @@ const App = () =>  {
         }
     }
 
-    const search = (key) => {
+    const search = (key: string) => {
         if ( !(key.trim() === '') ) {
             setState(state => ({
                 ...state,
@@ -113,14 +132,14 @@ const App = () =>  {
         }));
     }
 
-    const selectPage = (key) =>  {
+    const selectPage = (key: number) =>  {
         setState(state => ({
             ...state,
             activePage: key
         }));
     }
 
-    const setPortionNumber = (key) => {
+    const setPortionNumber = (key: number) => {
         setState(state => ({
             ...state,
             portionNumber: key
@@ -128,6 +147,7 @@ const App = () =>  {
     }
 
     const createNewMovie = () => {
+        // @ts-ignore
         setState(state => ({
             ...state,
             movieToEdit: {
@@ -152,8 +172,9 @@ const App = () =>  {
         }));
     }
 
-    const updateMovieToEditOnChange = (field, value) => {
+    const updateMovieToEditOnChange = (field: string, value: string) => {
         let movie = movieToEdit;
+        // @ts-ignore
         movie[field] = value;
         return setState(state => ({
             ...state,
@@ -168,14 +189,14 @@ const App = () =>  {
             movieToEdit: null,
             modal: !modal
         }));
-        saveMovie(movie)
+        if (movie) saveMovie(movie)
             .then(() => {
                 toastr.success('Movie was saved!');
                 loadData();
-        });
+            });
     }
 
-    const updateMovie = (movie) => {
+    const updateMovie = (movie: MovieType) => {
         setState(state => ({
             ...state,
             movieToEdit: Object.assign({}, movie),
@@ -183,7 +204,7 @@ const App = () =>  {
         }));
     }
 
-    const setMovieToDelete = (key) => {
+    const setMovieToDelete = (key: MovieType) => {
         setState(state => ({
             ...state,
             movieToDelete: key,
@@ -200,7 +221,7 @@ const App = () =>  {
     }
 
     const onDeleteMovie = () => {
-        deleteMovie(movieToDelete.id)
+        if (movieToDelete) deleteMovie(movieToDelete.id)
             .then(() => {
                 toastr.error('Movie was deleted!');
                 setState(state => ({
@@ -211,7 +232,7 @@ const App = () =>  {
                 loadData();
             });
     }
-        
+
     return (
             <AppWrapper>
                 { movies

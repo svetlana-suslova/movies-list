@@ -1,19 +1,8 @@
 import moviesData from './db.json';
+import {MovieType} from '../types/types';
 
 const pageSize = 10;
 const portionSize = 5;
-
-type Movie = {
-    id: number,
-    title: string,
-    year: string,
-    runtime: string,
-    genres: Array<string>,
-    director: string,
-    actors: string,
-    plot: string,
-    posterUrl: string
-}
 
 export function getMovies(sortBy: string, genre: string, searchStr: string, page: number, portionNumber: number) {
     
@@ -32,9 +21,7 @@ export function getMovies(sortBy: string, genre: string, searchStr: string, page
     });
 }
 
-
-
-function sortMovies(movies: Array<Movie>, sortBy: string) {
+function sortMovies(movies: Array<MovieType>, sortBy: string) {
     if (sortBy === 'title') {
         movies.sort((x, y) => x.title.localeCompare(y.title));
     }
@@ -48,7 +35,7 @@ function sortMovies(movies: Array<Movie>, sortBy: string) {
     }
 }
 
-function filterGenres(movies: Array<Movie>, selectGenre: string) {
+function filterGenres(movies: Array<MovieType>, selectGenre: string) {
     if (!selectGenre) return movies;
     return movies.filter(movie => {
         for (const genre of movie.genres) {
@@ -58,7 +45,7 @@ function filterGenres(movies: Array<Movie>, selectGenre: string) {
     });
 }
 
-function searchInMovies(movies: Array<Movie>, searchStr: string) {
+function searchInMovies(movies: Array<MovieType>, searchStr: string) {
     if (!searchStr) return movies;
     
     const textSearchFields = ['title', 'year', 'actors', 'director', 'plot'];
@@ -79,19 +66,19 @@ export function getGenres() {
     return Promise.resolve(moviesData.genres);
 }
 
-function getActivePage (movies: Array<Movie>, page: number, perPage: number) {
+function getActivePage (movies: Array<MovieType>, page: number, perPage: number) {
     const start = (page - 1) * perPage;
     const end = page * perPage;
     return movies.slice(start, end);
 }
 
-function calculatePortionCount (movies: Array<Movie>) {
+function calculatePortionCount (movies: Array<MovieType>) {
     const pagesCount = calculatePagesCount(movies);
     const portionCount = Math.ceil(pagesCount / portionSize);
     return portionCount;
 }
 
-function getPages (movies: Array<Movie>, portionNumber: number) {
+function getPages (movies: Array<MovieType>, portionNumber: number) {
     const pagesCount = calculatePagesCount(movies);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
@@ -104,16 +91,16 @@ function getPages (movies: Array<Movie>, portionNumber: number) {
     return pages;
 }
 
-function calculatePagesCount (movies: Array<Movie>) {
+function calculatePagesCount (movies: Array<MovieType>) {
     return Math.ceil(movies.length / pageSize);
 }
 
-export function saveMovie(movie: Movie) {
+export function saveMovie(movie: MovieType) {
     if (movie.id) return updateMovie(movie);
     return addMovie(movie);
 }
 
-function addMovie(movie: Movie) {
+function addMovie(movie: MovieType) {
     const movies = moviesData.movies;
     let maxId = 0;
     for (let i = 0; i < movies.length; i++) {
@@ -127,7 +114,7 @@ function addMovie(movie: Movie) {
     return Promise.resolve(null);
 }
 
-function updateMovie(movie: Movie) {
+function updateMovie(movie: MovieType) {
     const movies = moviesData.movies;
     for (let i = 0; i < movies.length; i++) {
         if (movies[i].id === movie.id) {
