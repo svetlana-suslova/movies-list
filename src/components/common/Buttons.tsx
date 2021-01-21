@@ -43,9 +43,9 @@ const AwesomeButton = styled.button`
 
 type PropsType = {
     className?: string,
-    title: string,
+    title?: string,
     onClickMethod: () => void,
-    color: string,
+    color?: string,
     size?: string
 }
 

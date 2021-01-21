@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { EditButton, DeleteButton } from './common/Buttons';
 import noMovie from '../assets/no-movie.png';
+import {MovieType} from '../types/types';
 
 const MovieRow = styled.div`
     font-size: 15px;
@@ -53,7 +54,13 @@ const MoviePlot = styled.p`
     font-size: 14px;
 `;
 
-const Movie = ( {movie, updateMovie, setMovieToDelete} ) => {
+type PropsType = {
+    movie: MovieType,
+    updateMovie: (movie: MovieType) => void,
+    setMovieToDelete: (movie: MovieType) => void
+}
+
+const Movie: React.FC<PropsType> = ( {movie, updateMovie, setMovieToDelete} ) => {
     const imgUrl = movie.posterUrl ? movie.posterUrl : noMovie;
     return (   
         <MovieRow key={movie.id}>
