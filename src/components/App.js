@@ -243,14 +243,18 @@ const App = () =>  {
                             title="+"/>
                         </div> 
                     </div>
-                    <MovieList className="container">
+                    {
+                        movies.length !== 0 
+                        ? <MovieList className="container">
                         {
                             movies.map(m => <Movie key={m.id}
                             movie={m} 
                             updateMovie={updateMovie}
                             setMovieToDelete={setMovieToDelete}/> )
                         }
-                    </MovieList>
+                        </MovieList>
+                        :  <NoMovie />
+                    }
                     <MovieModal
                     modal={modal}
                     movie={movieToEdit} 
