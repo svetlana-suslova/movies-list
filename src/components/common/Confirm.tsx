@@ -1,8 +1,15 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { MyButton, CloseBtn } from './Buttons';
+import {MovieType} from '../../types/types';
 
-const Confirm = ({ cancelDeleteMovie, deleteMovie, movie, confirm }) => {
+type PropsType = {
+    movie: MovieType | null, 
+    confirm: boolean,
+    cancelDeleteMovie: () => void,
+    deleteMovie: () => void
+}
+const Confirm: React.FC<PropsType> = ({ cancelDeleteMovie, deleteMovie, movie, confirm }) => {
 
     const closeBtn = <CloseBtn onClickMethod={cancelDeleteMovie}/>
 

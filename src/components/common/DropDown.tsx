@@ -13,9 +13,21 @@ const DropDownItem = styled(DropdownItem)`
         color: #404040;
         outline: none;
     }
-`; 
+`;
 
-const DropDown = ({sortMethod, sort, sortOptions, title, color}) => {
+type SortOptionsType = {
+    key: string, 
+    text: string
+}
+ 
+type PropsType = {
+    sortMethod: string, 
+    sort: (key: string) => void 
+    sortOptions: Array<SortOptionsType>,
+    title: string, 
+    color: string
+}
+const DropDown: React.FC<PropsType> = ({sortMethod, sort, sortOptions, title, color}) => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);

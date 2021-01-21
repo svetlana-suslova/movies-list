@@ -4,6 +4,7 @@ import { MyButton, CloseBtn } from './common/Buttons';
 import {TextInput, TextAreaInput, NumberInput, SelectInput} from './common/Inputs';
 import { useForm } from "react-hook-form";
 import styled from 'styled-components';
+import {MovieType} from '../types/types';
 
 const ErrorMessage = styled.p`
     color: #bf1650;
@@ -32,7 +33,16 @@ const SaveBtn = styled.button`
     } 
 `;
 
-const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, modal }) => {
+type PropsType = {
+    movie: MovieType | null,
+    cancelEditMovie: () => void,
+    onChangeMovie: (field: string, value: string | number) => void,
+    saveMovie: () => void,
+    genres: Array<string>, 
+    modal: boolean
+}
+
+const MovieModal: React.FC<PropsType> = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, modal }) => {
 
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = () => saveMovie();
@@ -106,7 +116,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             {errors.director && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             <TextAreaInput
                             name="actors"
-                            rows="2"
+                            rows={2}
                             label="Actors"
                             onChangeMovie={onChangeMovie}
                             placeholder="Actor, Actor, ..."
@@ -116,7 +126,7 @@ const MovieModal = ({cancelEditMovie, onChangeMovie, movie, saveMovie, genres, m
                             {errors.actors && <ErrorMessage>{errorMessage}</ErrorMessage>}
                             <TextAreaInput
                             name="plot"
-                            rows="4"
+                            rows={4}
                             label="Plot"
                             onChangeMovie={onChangeMovie}
                             placeholder="Plot"

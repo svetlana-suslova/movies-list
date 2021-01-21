@@ -172,7 +172,7 @@ const App = () =>  {
         }));
     }
 
-    const updateMovieToEditOnChange = (field: string, value: string) => {
+    const updateMovieToEditOnChange = (field: string, value: string | number) => {
         let movie = movieToEdit;
         // @ts-ignore
         movie[field] = value;
