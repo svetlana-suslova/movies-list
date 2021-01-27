@@ -78,7 +78,7 @@ export const PlusButton = ({ title, onClickMethod, color, size }) => {
 export const EditButton = ({ onClickMethod }) => {
      return (
           <AwesomeButton onClick={() => onClickMethod()}>
-               <i class="fa fa-edit"></i>
+               <i className="fa fa-edit"></i>
           </AwesomeButton>
      );
 };
@@ -86,7 +86,7 @@ export const EditButton = ({ onClickMethod }) => {
 export const DeleteButton = ({ onClickMethod }) => {
      return (
           <AwesomeButton onClick={() => onClickMethod()}>
-               <i class="fa fa-trash"></i>
+               <i className="fa fa-trash"></i>
           </AwesomeButton>
      );
 };

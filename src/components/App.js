@@ -61,6 +61,22 @@ const App = () => {
      } = state;
 
      useEffect(() => {
+          const loadData = () => {
+               getMovies(
+                    sortingMethod,
+                    filterMethod,
+                    searchStr,
+                    activePage,
+                    portionNumber
+               ).then((data) => {
+                    setState((state) => ({
+                         ...state,
+                         movies: data.movieItems,
+                         pages: data.pages,
+                         portionCount: data.portionCount
+                    }));
+               });
+          };
           getGenres().then((genres) => {
                setState((state) => ({
                     ...state,
