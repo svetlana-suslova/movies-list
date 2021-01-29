@@ -51,6 +51,10 @@ const MovieTitleButton = styled.button`
      :hover {
           text-decoration: underline;
      }
+     :active,
+     :focus {
+          outline: none;
+     }
 `;
 
 const MovieDetails = styled.p``;
